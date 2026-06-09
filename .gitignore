@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+env/
+.env
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data files (often too large for Git)
+*.npz
+*.pt
+*.pth
+*.mat
+
+# Plots — keep PNGs of named results, ignore quick previews
+preview*.png
+debug*.png
+tmp*.png
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
