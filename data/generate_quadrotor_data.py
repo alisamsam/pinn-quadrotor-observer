@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.integrate import solve_ivp  
 
 # --- Singha et al. (2024), Table 2 parameters ---
 m  = 1.80      # mass (kg)
@@ -68,3 +69,34 @@ if __name__ == "__main__":
 
     dxdt = quadrotor_dynamics(0.0, np.zeros(12), [m*g, 0.01, 0, 0])
     print("phiddot with roll torque:", round(dxdt[9], 4))   # expect POSITIVE
+
+# ============================================================
+# Step 4: dataset generation (hover, constant thrust)
+# ============================================================
+def generate_dataset(N=50, t_end=5.0, dt=0.01, seed=0):
+    rng = np.random.default_rng(seed)
+    t_span = (0.0, t_end)
+    t_eval = np.arange(0.0, t_end, dt)
+    u_hover = [m * g, 0.0, 0.0, 0.0]
+
+    all_trajectories = []
+    for i in range(N):
+        x0 = np.zeros(12) + rng.normal(0, 0.05, size=12)
+        sol = solve_ivp(
+            lambda t, x: quadrotor_dynamics(t, x, u_hover),
+            t_span, x0, t_eval=t_eval,
+        )
+        all_trajectories.append(sol.y.T)
+
+    X = np.array(all_trajectories)
+    return t_eval, X
+
+
+if __name__ == "__main__":
+    # ... your existing hover / Step 3 prints stay above ...
+
+    T, X = generate_dataset(N=50, t_end=5.0, dt=0.01, seed=0)
+    print("Time vector shape:", T.shape)
+    print("Dataset shape:    ", X.shape)
+    np.savez("data/hover_dataset.npz", T=T, X=X)
+    print("Saved to data/hover_dataset.npz")
