@@ -20,7 +20,7 @@ STATE_INFO = [
 ]
 
 # ----- data -----
-data = np.load("data/hover_dataset.npz")
+data = np.load("datasets/hover_dataset.npz")
 T = data["T"]
 X = data["X"]
 x_true = X[TRAJ_IDX]

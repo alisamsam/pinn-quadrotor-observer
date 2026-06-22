@@ -1,13 +1,13 @@
 """Singha Fig 2 scenario: start (6,0.2,0) -> target (0.6,0.6,10), yaw=0.1 sin(t)."""
 import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
-from data.generate_quadrotor_data import quadrotor_dynamics
-from data.controller import (M, G, KP_Z, KD_Z, KP_XY, KD_XY,
+from core.generate_quadrotor_data import quadrotor_dynamics
+from core.controller import (M, G, KP_Z, KD_Z, KP_XY, KD_XY,
                              KP_ATT, KD_ATT, IX, IY, IZ, L_ARM, outer_loop)
 
 # gentler gains for tracking the smooth yaw sine (vs aggressive setpoint gains)

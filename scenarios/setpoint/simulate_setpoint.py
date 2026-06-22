@@ -1,13 +1,13 @@
 """Phase 2 Step 2.3-2.4: closed-loop altitude-hold simulation."""
 import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
-from data.generate_quadrotor_data import quadrotor_dynamics
-from data.controller import altitude_pd_control, Z_TARGET, M, G
+from core.generate_quadrotor_data import quadrotor_dynamics
+from core.controller import altitude_pd_control, Z_TARGET, M, G
 
 # ----- simulate -----
 t_end = 8.0

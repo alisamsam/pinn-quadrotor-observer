@@ -17,7 +17,7 @@ LAMBDA_PHYS = 1.0      # the balanced weight that won before
 LAMBDA_INIT = 1.0
 
 # ===== load dataset =====
-data = np.load("data/hover_dataset.npz")
+data = np.load("datasets/hover_dataset.npz")
 T = data["T"]
 X = data["X"]
 N_traj, N_steps, n_states = X.shape

@@ -1,6 +1,6 @@
 import numpy as np
 
-data = np.load("data/hover_dataset.npz")   # open the bundle
+data = np.load("datasets/hover_dataset.npz")   # open the bundle
 T = data["T"]                                # pull out the time vector
 X = data["X"]                                # pull out the trajectories
 

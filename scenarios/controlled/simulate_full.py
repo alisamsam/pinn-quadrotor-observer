@@ -1,13 +1,13 @@
 """B.5: test the full controller — does the drone hold a 3D setpoint?"""
 import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
-from data.generate_quadrotor_data import quadrotor_dynamics
-from data.controller import full_control, X_TARGET, Y_TARGET, Z_TARGET
+from core.generate_quadrotor_data import quadrotor_dynamics
+from core.controller import full_control, X_TARGET, Y_TARGET, Z_TARGET
 
 # start OFF-target AND tilted -- the hard case that drifted before
 x0 = np.zeros(12)

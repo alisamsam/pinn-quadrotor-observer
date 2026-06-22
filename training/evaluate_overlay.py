@@ -18,7 +18,7 @@ MODELS = [
     ("models/pinn_lam10.0.pth","tab:red",    "lambda=10 (purist)"),
 ]
 
-data = np.load("data/hover_dataset.npz")
+data = np.load("datasets/hover_dataset.npz")
 T = data["T"]
 X = data["X"]
 x_true = X[TRAJ_IDX]

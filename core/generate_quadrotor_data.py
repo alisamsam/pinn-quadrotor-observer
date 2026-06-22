@@ -98,5 +98,5 @@ if __name__ == "__main__":
     T, X = generate_dataset(N=50, t_end=5.0, dt=0.01, seed=0)
     print("Time vector shape:", T.shape)
     print("Dataset shape:    ", X.shape)
-    np.savez("data/hover_dataset.npz", T=T, X=X)
+    np.savez("datasets/hover_dataset.npz", T=T, X=X)
     print("Saved to data/hover_dataset.npz")

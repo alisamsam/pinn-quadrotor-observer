@@ -1,12 +1,12 @@
 """Phase 2 Step C: clean controlled dataset (zero initial tilt, no drift)."""
 import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from data.generate_quadrotor_data import quadrotor_dynamics
-from data.controller import altitude_pd_control, Z_TARGET
+from core.generate_quadrotor_data import quadrotor_dynamics
+from core.controller import altitude_pd_control, Z_TARGET
 
 
 def generate_clean_dataset(N=50, t_end=8.0, dt=0.01, seed=0):
@@ -47,5 +47,5 @@ if __name__ == "__main__":
     print(f"Mean final z: {final_z.mean():.3f}  (target {Z_TARGET})")
     print(f"Max |final x|: {np.abs(final_x).max():.4f}  (should be tiny ~0)")
 
-    np.savez("data/setpoint_clean.npz", T=T, X=X, U=U)
+    np.savez("datasets/setpoint_clean.npz", T=T, X=X, U=U)
     print("Saved -> data/setpoint_clean.npz")

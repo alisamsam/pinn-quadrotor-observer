@@ -11,7 +11,7 @@ from models.pinn_observer import PINNObserver
 NOISE_STD = 0.02
 TRAJ_IDX = 0
 
-data = np.load("data/setpoint_dataset.npz")
+data = np.load("datasets/setpoint_dataset.npz")
 T = data["T"]; X = data["X"]
 x_true = X[TRAJ_IDX]
 rng = np.random.default_rng(0)

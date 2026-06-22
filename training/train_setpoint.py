@@ -12,7 +12,7 @@ N_EPOCHS = 200; LR = 1e-3; NOISE_STD = 0.02
 LAMBDA_PHYS = 1.0; LAMBDA_INIT = 1.0
 
 # ===== load CONTROLLED dataset =====
-data = np.load("data/setpoint_dataset.npz")
+data = np.load("datasets/setpoint_dataset.npz")
 T = data["T"]; X = data["X"]; U = data["U"]      # U is new: (50, 800, 4)
 N_traj, N_steps, n_states = X.shape
 

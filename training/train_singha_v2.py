@@ -12,7 +12,7 @@ N_EPOCHS = 500            # was 200 -> more practice
 LR = 1e-3; NOISE_STD = 0.02
 LAMBDA_PHYS = 1.0; LAMBDA_INIT = 1.0
 
-data = np.load("data/singha_dataset.npz")
+data = np.load("datasets/singha_dataset.npz")
 T = data["T"]; X = data["X"]; U = data["U"]
 N_traj, N_steps, n_states = X.shape
 

@@ -18,7 +18,7 @@ LAMBDA_PHYS = 0.1
 LAMBDA_INIT = 1.0
 
 # ===== 7.1 load the real dataset =====
-data = np.load("data/hover_dataset.npz")
+data = np.load("datasets/hover_dataset.npz")
 T = data["T"]             # (500,)   times
 X = data["X"]             # (50, 500, 12)  true states
 

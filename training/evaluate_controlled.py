@@ -12,7 +12,7 @@ STATE_INFO = [("x","m"),("y","m"),("z","m"),
     ("phi (roll)","rad"),("theta (pitch)","rad"),("psi (yaw)","rad"),
     ("phi_dot","rad/s"),("theta_dot","rad/s"),("psi_dot","rad/s")]
 
-data = np.load("data/controlled_dataset.npz")
+data = np.load("datasets/controlled_dataset.npz")
 T = data["T"]; X = data["X"]
 x_true = X[TRAJ_IDX]
 rng = np.random.default_rng(0)

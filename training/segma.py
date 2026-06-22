@@ -1,5 +1,5 @@
 import numpy as np
-data = np.load("data/singha_dataset.npz")
+data = np.load("datasets/singha_dataset.npz")
 X = data["X"]                          # (50, 1800, 12)
 X_all = X.reshape(-1, 12)              # (90000, 12)
 x_column = X_all[:, 0]                 # just the x-position (column 0)

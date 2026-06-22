@@ -11,7 +11,7 @@ STATE_INFO = [("x","m"),("y","m"),("z","m"),
     ("phi","rad"),("theta","rad"),("psi (yaw)","rad"),
     ("phi_dot","rad/s"),("theta_dot","rad/s"),("psi_dot","rad/s")]
 
-data = np.load("data/singha_dataset.npz")
+data = np.load("datasets/singha_dataset.npz")
 T = data["T"]; X = data["X"]; x_true = X[TRAJ_IDX]
 rng = np.random.default_rng(0)
 y_noisy = x_true + rng.normal(0, NOISE_STD, x_true.shape)

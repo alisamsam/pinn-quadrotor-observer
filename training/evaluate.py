@@ -14,7 +14,7 @@ STATE_NAME = "z (altitude)"
 TRAJ_IDX = 0           # which trajectory to plot
 
 # ----- load dataset -----
-data = np.load("data/hover_dataset.npz")
+data = np.load("datasets/hover_dataset.npz")
 T = data["T"]                      # (500,)
 X = data["X"]                      # (50, 500, 12)
 
