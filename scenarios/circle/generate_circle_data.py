@@ -17,12 +17,16 @@ def generate_circle_dataset(N=50, dt=0.01, seed=0):
     all_traj, all_u = [], []
     for i in range(N):
         # start near the circle's t=0 point, with small random scatter
-        pos0, vel0, _ = circular_reference(0.0)
         x0 = np.zeros(12)
-        x0[0:3] = pos0 + rng.uniform(-0.5, 0.5, 3)   # small position scatter
-        x0[3:6] = vel0                                # match circle velocity
-        x0[6] = rng.normal(0, 0.05)                   # small tilt scatter
-        x0[7] = rng.normal(0, 0.05)
+        # Table 5 start (0,0,4) with small scatter for dataset variety  
+        x0[0] = 0.0 + rng.uniform(-1.0, 1.0)      # x near 0
+        x0[1] = 0.0 + rng.uniform(-1.0, 1.0)      # y near 0
+        x0[2] = 4.0 + rng.uniform(-0.5, 0.5)      # z near 4 (descends to circle)
+        x0[3:6] = 0.0                              # at rest (drone placed, not moving)
+        # Table 5 initial angles, with small scatter
+        x0[6] = 0.087  + rng.normal(0, 0.02)
+        x0[7] = 0.1042 + rng.normal(0, 0.02)
+        x0[8] = 0.209  + rng.normal(0, 0.02)
 
         sol = solve_ivp(
             lambda t, x: quadrotor_dynamics(t, x, full_control_circle(t, x)),

@@ -54,13 +54,12 @@ def outer_loop_ff(x, U1, pos_d, vel_d, psi):
 
 
 # ===== simulate =====
+
 x0 = np.zeros(12)
-# ISOLATION TEST: teleport onto the circle at t=0, moving with it
-pos0, vel0, _ = circular_reference(0.0)      # circle's position & velocity at t=0
-x0[0], x0[1], x0[2] = pos0                    # pos = (0, 10, 2)
-x0[3], x0[4], x0[5] = vel0                    # vel = (10, 0, 0)  <- matches circle motion
-# small initial tilt (Singha angles), yaw matches yaw_reference(0)=0
-x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.0
+# Table 5: circular trajectory initial position (0,0,4), initial angles (0.087, 0.1042, 0.209)
+x0[0], x0[1], x0[2] = 0.0, 0.0, 4.0          # start at (0,0,4) per Table 5
+x0[3], x0[4], x0[5] = 0.0, 0.0, 0.0          # at rest (drone placed, not moving)
+x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.209   # Table 5 initial angles
 
 t_end = 4*np.pi                               # ~2 full circles
 t_eval = np.arange(0.0, t_end, 0.01)
