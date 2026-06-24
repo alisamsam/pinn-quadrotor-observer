@@ -2,22 +2,23 @@
 import numpy as np
 
 R = 10.0          # radius (Singha)
-Z_LEVEL = 2.0     # circling height (Singha)
+OMEGA = 0.3       # angular rate (lowered so ω²R = 0.9 m/s² << g)
+Z_LEVEL = 2.0
 
 
 def circular_reference(t):
-    """Desired pos, vel, acc for Singha's circular trajectory at time t."""
+    w = OMEGA
     # position
-    x_d = R * np.sin(t)
-    y_d = R * np.cos(t)
+    x_d = R * np.sin(w*t)
+    y_d = R * np.cos(w*t)
     z_d = Z_LEVEL
-    # velocity (1st derivative)
-    xdot_d =  R * np.cos(t)
-    ydot_d = -R * np.sin(t)
+    # velocity (×w)
+    xdot_d =  R * w * np.cos(w*t)
+    ydot_d = -R * w * np.sin(w*t)
     zdot_d = 0.0
-    # acceleration (2nd derivative)
-    xddot_d = -R * np.sin(t)
-    yddot_d = -R * np.cos(t)
+    # acceleration (×w²)
+    xddot_d = -R * w**2 * np.sin(w*t)
+    yddot_d = -R * w**2 * np.cos(w*t)
     zddot_d = 0.0
     return (np.array([x_d, y_d, z_d]),
             np.array([xdot_d, ydot_d, zdot_d]),
@@ -25,9 +26,9 @@ def circular_reference(t):
 
 
 def yaw_reference(t):
-    """Desired yaw and yaw-rate (Singha: 0.2 sin t)."""
-    psi_d = 0.2 * np.sin(t)
-    psi_d_dot = 0.2 * np.cos(t)
+    w = OMEGA
+    psi_d = 0.2 * np.sin(w*t)
+    psi_d_dot = 0.2 * w * np.cos(w*t)
     return psi_d, psi_d_dot
 
 
@@ -42,7 +43,7 @@ if __name__ == "__main__":
         print(f"t={t:.2f}:  pos={np.round(pos,2)}  vel={np.round(vel,2)}  yaw={psi:.3f}")
 
     # plot the circle in 3D (so it looks 3D, as you wanted)
-    ts = np.linspace(0, 2*np.pi, 200)
+    ts = np.linspace(0, 2*np.pi/OMEGA, 400)
     P = np.array([circular_reference(t)[0] for t in ts])
     fig = plt.figure(figsize=(9, 7))
     ax = fig.add_subplot(111, projection='3d')

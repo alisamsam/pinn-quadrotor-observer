@@ -55,8 +55,12 @@ def outer_loop_ff(x, U1, pos_d, vel_d, psi):
 
 # ===== simulate =====
 x0 = np.zeros(12)
-x0[0], x0[1], x0[2] = 0.0, 0.0, 4.0          # Singha start (0,0,4)
-x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.209   # Singha initial angles
+# ISOLATION TEST: teleport onto the circle at t=0, moving with it
+pos0, vel0, _ = circular_reference(0.0)      # circle's position & velocity at t=0
+x0[0], x0[1], x0[2] = pos0                    # pos = (0, 10, 2)
+x0[3], x0[4], x0[5] = vel0                    # vel = (10, 0, 0)  <- matches circle motion
+# small initial tilt (Singha angles), yaw matches yaw_reference(0)=0
+x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.0
 
 t_end = 4*np.pi                               # ~2 full circles
 t_eval = np.arange(0.0, t_end, 0.01)
@@ -74,16 +78,20 @@ P = np.array([circular_reference(t)[0] for t in t_eval])
 
 # 3D plot: ACTUAL connected flight path + desired circle
 # DIAGNOSTIC: every key variable vs time
+# use the solver's ACTUAL returned times (handles early-stop safely)
+tt = sol.t
+P = np.array([circular_reference(t)[0] for t in tt])
+
 fig, ax = plt.subplots(2, 3, figsize=(15, 8))
-ax[0,0].plot(t_eval, x, 'b', label='actual'); ax[0,0].plot(t_eval, P[:,0], 'r--', label='desired'); ax[0,0].set_title("x"); ax[0,0].legend()
-ax[0,1].plot(t_eval, y, 'b'); ax[0,1].plot(t_eval, P[:,1], 'r--'); ax[0,1].set_title("y")
-ax[0,2].plot(t_eval, z, 'b'); ax[0,2].axhline(2, color='r', ls='--'); ax[0,2].set_title("z (target=2)")
-ax[1,0].plot(t_eval, sol.y[6], 'g'); ax[1,0].set_title("phi (roll angle)")
-ax[1,1].plot(t_eval, sol.y[7], 'g'); ax[1,1].set_title("theta (pitch angle)")
-ax[1,2].plot(t_eval, sol.y[2], 'b'); ax[1,2].set_title("z (zoomed early)"); ax[1,2].set_xlim(0, 2)
+ax[0,0].plot(tt, x, 'b', label='actual'); ax[0,0].plot(tt, P[:,0], 'r--', label='desired'); ax[0,0].set_title("x"); ax[0,0].legend()
+ax[0,1].plot(tt, y, 'b'); ax[0,1].plot(tt, P[:,1], 'r--'); ax[0,1].set_title("y")
+ax[0,2].plot(tt, z, 'b'); ax[0,2].axhline(2, color='r', ls='--'); ax[0,2].set_title("z (target=2)")
+ax[1,0].plot(tt, sol.y[6], 'g'); ax[1,0].set_title("phi (roll)")
+ax[1,1].plot(tt, sol.y[7], 'g'); ax[1,1].set_title("theta (pitch)")
+ax[1,2].plot(tt, z, 'b'); ax[1,2].axhline(2, color='r', ls='--'); ax[1,2].set_title("z (zoom)"); ax[1,2].set_xlim(0, 3)
 for a in ax.flat: a.grid(alpha=0.3); a.set_xlabel("t(s)")
-plt.tight_layout(); plt.savefig("docs/circle_debug.png", dpi=120, bbox_inches="tight")
-print("Saved -> docs/circle_debug.png")
+plt.tight_layout(); plt.savefig("docs/circle_iso_debug.png", dpi=120, bbox_inches="tight")
+print("Saved -> docs/circle_iso_debug.png")
 
 # also print NUMERIC symptoms at key times
 for tc in [0.0, 0.5, 1.0, 2.0]:
