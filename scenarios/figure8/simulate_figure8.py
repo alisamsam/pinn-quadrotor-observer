@@ -56,44 +56,42 @@ def outer_loop_ff(x, U1, pos_d, vel_d, psi):
 # ===== simulate =====
 
 x0 = np.zeros(12)
-# Table 5: figure-8 trajectory initial position (0,0,0), initial angles (0.087, 0.1042, 0.209)
-x0[0], x0[1], x0[2] = 0.0, 0.0, 0.0          # start at (0,0,0.0) per Table 5
-x0[3], x0[4], x0[5] = 0.0, 0.0, 0.0          # at rest (drone placed, not moving)
-x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.209   # Table 5 initial angles
+# ... (imports, KP_YAW, full_control_figure8, outer_loop_ff stay OUTSIDE/above) ...
 
-t_end = 2*np.pi/OMEGA                               # ~21, one full figure-8
-t_eval = np.arange(0.0, t_end, 0.01)
 
-sol = solve_ivp(
-    lambda t, x: quadrotor_dynamics(t, x, full_control_figure8(t, x)),
-    (0.0, t_end), x0, t_eval=t_eval, max_step=0.02,
-)
-x, y, z = sol.y[0], sol.y[1], sol.y[2]
-print(f"Start: ({x[0]:.2f},{y[0]:.2f},{z[0]:.2f})")
-print(f"End:   ({x[-1]:.2f},{y[-1]:.2f},{z[-1]:.2f})")
+if __name__ == "__main__":
+    # EVERYTHING from here down is indented inside the guard
+    x0 = np.zeros(12)
+    x0[0], x0[1], x0[2] = 0.0, 0.0, 0.0
+    x0[3], x0[4], x0[5] = 0.0, 0.0, 0.0
+    x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.209
 
-# desired figure-8 for reference
-P = np.array([figure8_reference(t)[0] for t in t_eval])
+    t_end = 2*np.pi/OMEGA
+    t_eval = np.arange(0.0, t_end, 0.01)
 
-# 3D plot: ACTUAL connected flight path + desired figure-8
-# DIAGNOSTIC: every key variable vs time
-# use the solver's ACTUAL returned times (handles early-stop safely)
-tt = sol.t
-P = np.array([figure8_reference(t)[0] for t in tt])
+    sol = solve_ivp(
+        lambda t, x: quadrotor_dynamics(t, x, full_control_figure8(t, x)),
+        (0.0, t_end), x0, t_eval=t_eval, max_step=0.02,
+    )
+    x, y, z = sol.y[0], sol.y[1], sol.y[2]
+    print(f"Start: ({x[0]:.2f},{y[0]:.2f},{z[0]:.2f})")
+    print(f"End:   ({x[-1]:.2f},{y[-1]:.2f},{z[-1]:.2f})")
 
-fig, ax = plt.subplots(2, 3, figsize=(15, 8))
-ax[0,0].plot(tt, x, 'b', label='actual'); ax[0,0].plot(tt, P[:,0], 'r--', label='desired'); ax[0,0].set_title("x"); ax[0,0].legend()
-ax[0,1].plot(tt, y, 'b'); ax[0,1].plot(tt, P[:,1], 'r--'); ax[0,1].set_title("y")
-ax[0,2].plot(tt, z, 'b'); ax[0,2].plot(tt, P[:,2], 'r--'); ax[0,2].set_title("z: actual vs desired")
-ax[1,0].plot(tt, sol.y[6], 'g'); ax[1,0].set_title("phi (roll)")
-ax[1,1].plot(tt, sol.y[7], 'g'); ax[1,1].set_title("theta (pitch)")
-ax[1,2].plot(tt, z, 'b'); ax[1,2].plot(tt, P[:,2], 'r--'); ax[1,2].set_title("z (zoom)"); ax[1,2].set_xlim(0, 5)
-for a in ax.flat: a.grid(alpha=0.3); a.set_xlabel("t(s)")
-plt.tight_layout(); plt.savefig("docs/figure8_iso_debug.png", dpi=120, bbox_inches="tight")
-print("Saved -> docs/figure8_iso_debug.png")
+    tt = sol.t
+    P = np.array([figure8_reference(t)[0] for t in tt])
 
-# also print NUMERIC symptoms at key times
-for tc in [0.0, 0.5, 1.0, 2.0]:
-    i = int(tc/0.01)
-    if i < len(z):
-        print(f"t={tc}: z={z[i]:.2f}, phi={sol.y[6][i]:.3f}, theta={sol.y[7][i]:.3f}")
+    fig, ax = plt.subplots(2, 3, figsize=(15, 8))
+    ax[0,0].plot(tt, x, 'b', label='actual'); ax[0,0].plot(tt, P[:,0], 'r--', label='desired'); ax[0,0].set_title("x"); ax[0,0].legend()
+    ax[0,1].plot(tt, y, 'b'); ax[0,1].plot(tt, P[:,1], 'r--'); ax[0,1].set_title("y")
+    ax[0,2].plot(tt, z, 'b'); ax[0,2].plot(tt, P[:,2], 'r--'); ax[0,2].set_title("z: actual vs desired")
+    ax[1,0].plot(tt, sol.y[6], 'g'); ax[1,0].set_title("phi (roll)")
+    ax[1,1].plot(tt, sol.y[7], 'g'); ax[1,1].set_title("theta (pitch)")
+    ax[1,2].plot(tt, z, 'b'); ax[1,2].plot(tt, P[:,2], 'r--'); ax[1,2].set_title("z (zoom)"); ax[1,2].set_xlim(0, 5)
+    for a in ax.flat: a.grid(alpha=0.3); a.set_xlabel("t(s)")
+    plt.tight_layout(); plt.savefig("docs/figure8_iso_debug.png", dpi=120, bbox_inches="tight")
+    print("Saved -> docs/figure8_iso_debug.png")
+
+    for tc in [0.0, 0.5, 1.0, 2.0]:
+        i = int(tc/0.01)
+        if i < len(z):
+            print(f"t={tc}: z={z[i]:.2f}, phi={sol.y[6][i]:.3f}, theta={sol.y[7][i]:.3f}")
