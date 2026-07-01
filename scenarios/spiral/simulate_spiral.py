@@ -1,4 +1,4 @@
-"""T.2: fly Singha's circular trajectory with the full controller + feedforward."""
+"""T.2: fly Singha's Spiral trajectory with the full controller + feedforward."""
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -10,14 +10,14 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa
 from core.generate_quadrotor_data import quadrotor_dynamics
 from core.controller import (M, G, KP_Z, KD_Z, KP_XY, KD_XY,
                              KP_ATT, KD_ATT, IX, IY, IZ, L_ARM, outer_loop)
-from circle_reference import circular_reference, yaw_reference
+from spiral_reference import spiral_reference, yaw_reference
 
 KP_YAW, KD_YAW = 2.0, 2.0
 
 
-def full_control_circle(t, x):
-    """Time-aware controller tracking the moving circle (with feedforward)."""
-    pos_d, vel_d, acc_d = circular_reference(t)     # moving target + derivatives
+def full_control_spiral(t, x):
+    """Time-aware controller tracking the moving spiral (with feedforward)."""
+    pos_d, vel_d, acc_d = spiral_reference(t)     # moving target + derivatives
     psi_d, psi_d_dot = yaw_reference(t)
 
     # --- altitude (z) with feedforward velocity ---
@@ -56,44 +56,43 @@ def outer_loop_ff(x, U1, pos_d, vel_d, psi):
 # ===== simulate =====
 
 x0 = np.zeros(12)
-# Table 5: circular trajectory initial position (0,0,4), initial angles (0.087, 0.1042, 0.209)
-x0[0], x0[1], x0[2] = 0.0, 0.0, 4.0          # start at (0,0,4) per Table 5
-x0[3], x0[4], x0[5] = 0.0, 0.0, 0.0          # at rest (drone placed, not moving)
-x0[6], x0[7], x0[8] = 0.087, 0.1042, 0.209   # Table 5 initial angles
+# Table 5: spiral trajectory initial position (4,5,0), initial angles (0.0, 0.0, 0.0)
+x0[0], x0[1], x0[2] = 4.0, 5.0, 0.0          # spiral start (4,5,0) — ground
+x0[3], x0[4], x0[5] = 0.0, 0.0, 0.0          # at rest
+x0[6], x0[7], x0[8] = 0.0, 0.0, 0.0          # zero initial angles
 
-t_end = 4*np.pi                               # ~2 full circles
+t_end = 30                              # ~2 full circles
 t_eval = np.arange(0.0, t_end, 0.01)
 
 sol = solve_ivp(
-    lambda t, x: quadrotor_dynamics(t, x, full_control_circle(t, x)),
+    lambda t, x: quadrotor_dynamics(t, x, full_control_spiral(t, x)),
     (0.0, t_end), x0, t_eval=t_eval, max_step=0.02,
 )
 x, y, z = sol.y[0], sol.y[1], sol.y[2]
 print(f"Start: ({x[0]:.2f},{y[0]:.2f},{z[0]:.2f})")
 print(f"End:   ({x[-1]:.2f},{y[-1]:.2f},{z[-1]:.2f})")
 
-# desired circle for reference
-P = np.array([circular_reference(t)[0] for t in t_eval])
+# desired spiral for reference
+P = np.array([spiral_reference(t)[0] for t in t_eval])
 
-# 3D plot: ACTUAL connected flight path + desired circle
+# 3D plot: ACTUAL connected flight path + desired spiral
 # DIAGNOSTIC: every key variable vs time
 # use the solver's ACTUAL returned times (handles early-stop safely)
 tt = sol.t
-P = np.array([circular_reference(t)[0] for t in tt])
+P = np.array([spiral_reference(t)[0] for t in tt])
 
 fig, ax = plt.subplots(2, 3, figsize=(15, 8))
 ax[0,0].plot(tt, x, 'b', label='actual'); ax[0,0].plot(tt, P[:,0], 'r--', label='desired'); ax[0,0].set_title("x"); ax[0,0].legend()
 ax[0,1].plot(tt, y, 'b'); ax[0,1].plot(tt, P[:,1], 'r--'); ax[0,1].set_title("y")
-ax[0,2].plot(tt, z, 'b'); ax[0,2].axhline(2, color='r', ls='--'); ax[0,2].set_title("z (target=2)")
+ax[0,2].plot(tt, z, 'b'); ax[0,2].plot(tt, P[:,2], 'r--'); ax[0,2].set_title("z (climbing)")
 ax[1,0].plot(tt, sol.y[6], 'g'); ax[1,0].set_title("phi (roll)")
 ax[1,1].plot(tt, sol.y[7], 'g'); ax[1,1].set_title("theta (pitch)")
-ax[1,2].plot(tt, z, 'b'); ax[1,2].axhline(2, color='r', ls='--'); ax[1,2].set_title("z (zoom)"); ax[1,2].set_xlim(0, 3)
+ax[1,2].plot(tt, sol.y[8], 'g'); ax[1,2].set_title("psi (yaw)")
 for a in ax.flat: a.grid(alpha=0.3); a.set_xlabel("t(s)")
-plt.tight_layout(); plt.savefig("docs/circle_iso_debug.png", dpi=120, bbox_inches="tight")
-print("Saved -> docs/circle_iso_debug.png")
+plt.tight_layout(); plt.savefig("docs/spiral_iso_debug.png", dpi=120, bbox_inches="tight")
+print("Saved -> docs/spiral_iso_debug.png")
 
-# also print NUMERIC symptoms at key times
-for tc in [0.0, 0.5, 1.0, 2.0]:
+for tc in [0.0, 5.0, 15.0, 29.0]:
     i = int(tc/0.01)
     if i < len(z):
         print(f"t={tc}: z={z[i]:.2f}, phi={sol.y[6][i]:.3f}, theta={sol.y[7][i]:.3f}")
