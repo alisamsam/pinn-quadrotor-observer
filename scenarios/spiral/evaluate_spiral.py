@@ -1,4 +1,4 @@
-"""Evaluate the PINN observer on circle-tracking flight, all 12 states."""
+"""Evaluate the PINN observer on spiral-tracking flight, all 12 states."""
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -12,7 +12,7 @@ STATE_INFO = [("x","m"),("y","m"),("z","m"),
     ("phi","rad"),("theta","rad"),("psi (yaw)","rad"),
     ("phi_dot","rad/s"),("theta_dot","rad/s"),("psi_dot","rad/s")]
 
-data = np.load("datasets/circle_dataset.npz")
+data = np.load("datasets/spiral_dataset.npz")
 T = data["T"]; X = data["X"]
 x_true = X[TRAJ_IDX]
 rng = np.random.default_rng(0)
@@ -21,7 +21,7 @@ t_t = torch.tensor(T.reshape(-1,1), dtype=torch.float32)
 y_t = torch.tensor(y_noisy, dtype=torch.float32)
 
 m = PINNObserver(hidden=256, n_hidden_layers=3)
-m.load_state_dict(torch.load("models/pinn_circle.pth")); m.eval()
+m.load_state_dict(torch.load("models/pinn_spiral.pth")); m.eval()
 with torch.no_grad():
     x_est = m(t_t, y_t).numpy()
 
@@ -33,8 +33,8 @@ for i,(name,unit) in enumerate(STATE_INFO):
     ax.plot(T, x_est[:,i], 'b-', lw=1.1, label="Est")
     ax.set_title(f"{name} [{unit}]", fontsize=11); ax.grid(alpha=0.3)
     if i==0: ax.legend(fontsize=8)
-fig.suptitle("Circle scenario: observer on all 12 states", fontsize=15)
+fig.suptitle("spiral scenario: observer on all 12 states", fontsize=15)
 fig.tight_layout(rect=[0,0,1,0.98])
 os.makedirs("docs", exist_ok=True)
-plt.savefig("docs/eval_circle.png", dpi=110, bbox_inches="tight")
-print("Saved -> docs/eval_circle.png")
+plt.savefig("docs/eval_spiral.png", dpi=110, bbox_inches="tight")
+print("Saved -> docs/eval_spiral.png")
