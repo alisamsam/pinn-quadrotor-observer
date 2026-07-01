@@ -1,6 +1,6 @@
-"""Train PINN observer on the circle dataset."""
+"""Train PINN observer on the spiral dataset."""
 import sys, os
-# 2 levels deep (scenarios/circle/) -> 3 dirnames to reach repo root
+# 2 levels deep (scenarios/spiral/) -> 3 dirnames to reach repo root
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np, torch
@@ -11,7 +11,7 @@ torch.manual_seed(0)
 N_EPOCHS = 600; LR = 1e-3; NOISE_STD = 0.02
 LAMBDA_PHYS = 1.0; LAMBDA_INIT = 1.0; BATCH = 2000
 
-data = np.load("datasets/circle_dataset.npz")
+data = np.load("datasets/spiral_dataset.npz")
 T = data["T"]; X = data["X"]; U = data["U"]
 N_traj, N_steps, n_states = X.shape
 
@@ -58,8 +58,8 @@ for e in range(N_EPOCHS):
     if e%30==0 or e==N_EPOCHS-1:
         print(f"{e:5d} | {tot.item():8.4f} | {ld.item():8.4f} | {lp.item():8.4f} | {li.item():8.4f}")
 
-torch.save(model.state_dict(), "models/pinn_circle.pth")
-print("\nSaved -> models/pinn_circle.pth")
+torch.save(model.state_dict(), "models/pinn_spiral.pth")
+print("\nSaved -> models/pinn_spiral.pth")
 
 # per-state RMS error (to measure which states improved)
 with torch.no_grad():
