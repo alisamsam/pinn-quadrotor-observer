@@ -8,7 +8,7 @@ from models.pinn_observer import PINNObserver
 from training.losses import physics_loss      # shared loss stays in training/
 
 torch.manual_seed(0)
-N_EPOCHS = 600; LR = 1e-3; NOISE_STD = 0.02
+N_EPOCHS = 2000; LR = 1e-3; NOISE_STD = 0.02
 LAMBDA_PHYS = 1.0; LAMBDA_INIT = 1.0; BATCH = 2000
 
 data = np.load("datasets/spiral_dataset.npz")
@@ -40,6 +40,18 @@ def dl(m,t,y,s): return torch.mean(((m(t,y)-y)/s)**2)
 def il(m,t,y,x,s): return torch.mean(((m(t,y)-x)/s)**2)
 
 model = PINNObserver(hidden=256, n_hidden_layers=3)   # v3 capacity (best)
+names = ["x","y","z","vx","vy","vz","phi","th","psi","p","q","r"]
+
+def print_scorecard(epoch):
+    with torch.no_grad():
+        est = model(t_all, Y_all).numpy()
+    err = np.sqrt(((est - X_all)**2).mean(axis=0))
+    rel = err / sigma
+    print(f"\n--- Per-state relative error @ epoch {epoch} ---")
+    print("  " + "  ".join(f"{n}:{r:5.1%}" for n, r in zip(names, rel)))
+    print()
+
+CHECKPOINTS = {1400, 1600, 1800, 2000}
 opt = torch.optim.Adam(model.parameters(), lr=LR)
 gen = np.random.default_rng(1)
 
@@ -55,6 +67,9 @@ for e in range(N_EPOCHS):
     li = il(model, t0_t, Y0_t, X0_t, sigma_t)
     tot = ld + LAMBDA_PHYS*lp + LAMBDA_INIT*li
     tot.backward(); opt.step()
+    
+    if (e+1) in CHECKPOINTS:
+        print_scorecard(e+1)
     if e%30==0 or e==N_EPOCHS-1:
         print(f"{e:5d} | {tot.item():8.4f} | {ld.item():8.4f} | {lp.item():8.4f} | {li.item():8.4f}")
 
