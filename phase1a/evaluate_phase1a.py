@@ -13,7 +13,7 @@ STATE_NAMES = ["x", "y", "z", "vx", "vy", "vz",
 # --- load data + trained model ---
 d = load_phase1a_data()
 model = PINNObserverV2()
-model.load_state_dict(torch.load("phase1a/pinn_phase1a.pth"))
+model.load_state_dict(torch.load("phase1a/pinn_phase1a_8000.pth"))
 model.eval()
 
 
