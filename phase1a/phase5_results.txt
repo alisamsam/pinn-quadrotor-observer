@@ -1,0 +1,32 @@
+
+=== TRAIN (40 seen) ===
+     x |     0.0433 | measured
+     y |     0.0505 | measured
+     z |     0.0265 | measured
+    vx |     0.1577 | HIDDEN
+    vy |     0.1543 | HIDDEN
+    vz |     0.0624 | HIDDEN
+   phi |     0.0142 | measured
+ theta |     0.0227 | measured
+   psi |     0.0174 | measured
+     p |     0.0203 | HIDDEN
+     q |     0.0519 | HIDDEN
+     r |     0.0095 | HIDDEN
+  avg measured: 0.0291
+  avg hidden:   0.0760
+
+=== TEST (10 UNSEEN) ===
+     x |     0.0660 | measured
+     y |     0.0837 | measured
+     z |     0.0364 | measured
+    vx |     0.1880 | HIDDEN
+    vy |     0.2036 | HIDDEN
+    vz |     0.0749 | HIDDEN
+   phi |     0.0162 | measured
+ theta |     0.0274 | measured
+   psi |     0.0199 | measured
+     p |     0.0217 | HIDDEN
+     q |     0.0607 | HIDDEN
+     r |     0.0099 | HIDDEN
+  avg measured: 0.0416
+  avg hidden:   0.0931
