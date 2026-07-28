@@ -1,0 +1,74 @@
+nohup: les entrées sont ignorées
+Device: cuda
+Weights fixed at Case 4: w0=1.0, w_ode=2.0, wy=1.0
+
+=== Pass 1: 2 layers x 128 neurons ===
+    epoch    1 | MSE_0 1.713e+00 | MSE_g 6.768e-01 | MSE_y 1.571e+02
+    epoch  500 | MSE_0 2.590e-04 | MSE_g 1.920e-03 | MSE_y 1.952e-03
+    epoch 1000 | MSE_0 9.162e-05 | MSE_g 8.883e-04 | MSE_y 8.530e-04
+    epoch 1500 | MSE_0 5.864e-04 | MSE_g 1.503e-03 | MSE_y 4.008e-03
+    epoch 2000 | MSE_0 6.357e-05 | MSE_g 7.278e-04 | MSE_y 1.370e-03
+  -> params 19852 | TEST meas RMSE 0.0402 | hidden RMSE 0.0360 | 1468s
+
+=== Pass 1: 4 layers x 128 neurons ===
+    epoch    1 | MSE_0 1.072e+00 | MSE_g 7.399e-01 | MSE_y 1.528e+02
+    epoch  500 | MSE_0 1.905e-03 | MSE_g 1.782e-03 | MSE_y 4.612e-03
+    epoch 1000 | MSE_0 1.183e-04 | MSE_g 6.282e-04 | MSE_y 1.269e-03
+    epoch 1500 | MSE_0 1.083e-04 | MSE_g 1.964e-03 | MSE_y 8.487e-02
+    epoch 2000 | MSE_0 8.355e-05 | MSE_g 3.059e-04 | MSE_y 3.019e-04
+  -> params 52876 | TEST meas RMSE 0.0239 | hidden RMSE 0.0272 | 2376s
+
+=== Pass 1: 6 layers x 128 neurons ===
+    epoch    1 | MSE_0 2.388e+00 | MSE_g 1.179e+00 | MSE_y 1.512e+02
+    epoch  500 | MSE_0 5.653e-04 | MSE_g 3.872e-03 | MSE_y 1.733e-02
+    epoch 1000 | MSE_0 1.335e-04 | MSE_g 1.015e-03 | MSE_y 2.658e-03
+    epoch 1500 | MSE_0 1.017e-03 | MSE_g 2.953e-03 | MSE_y 5.700e-03
+    epoch 2000 | MSE_0 4.830e-04 | MSE_g 2.179e-03 | MSE_y 4.350e-03
+  -> params 85900 | TEST meas RMSE 0.0991 | hidden RMSE 0.0748 | 3854s
+
+=== Pass 1: 9 layers x 128 neurons ===
+    epoch    1 | MSE_0 8.719e+00 | MSE_g 6.578e-01 | MSE_y 1.529e+02
+    epoch  500 | MSE_0 4.267e-02 | MSE_g 2.031e-02 | MSE_y 2.525e-01
+    epoch 1000 | MSE_0 5.853e-04 | MSE_g 1.175e-02 | MSE_y 4.826e-02
+    epoch 1500 | MSE_0 2.914e-04 | MSE_g 3.009e-03 | MSE_y 1.105e-02
+    epoch 2000 | MSE_0 3.872e-04 | MSE_g 2.447e-03 | MSE_y 4.338e-03
+  -> params 135436 | TEST meas RMSE 0.0710 | hidden RMSE 0.0633 | 5417s
+
+Best depth from pass 1: 4 layers
+
+=== Pass 2: 4 layers x 20 neurons ===
+    epoch    1 | MSE_0 3.489e+00 | MSE_g 6.632e-01 | MSE_y 2.163e+02
+    epoch  500 | MSE_0 2.212e-02 | MSE_g 1.039e-01 | MSE_y 5.002e-01
+    epoch 1000 | MSE_0 1.790e-02 | MSE_g 2.931e-02 | MSE_y 2.767e-02
+    epoch 1500 | MSE_0 1.257e-02 | MSE_g 2.442e-02 | MSE_y 2.006e-02
+    epoch 2000 | MSE_0 1.122e-02 | MSE_g 1.950e-02 | MSE_y 1.413e-02
+  -> params 1792 | TEST meas RMSE 0.1171 | hidden RMSE 0.1904 | 1369s
+
+=== Pass 2: 4 layers x 64 neurons ===
+    epoch    1 | MSE_0 3.133e+00 | MSE_g 6.664e-01 | MSE_y 1.850e+02
+    epoch  500 | MSE_0 4.024e-04 | MSE_g 3.472e-03 | MSE_y 1.176e-02
+    epoch 1000 | MSE_0 2.837e-04 | MSE_g 1.853e-03 | MSE_y 1.881e-03
+    epoch 1500 | MSE_0 7.981e-04 | MSE_g 2.025e-03 | MSE_y 1.731e-02
+    epoch 2000 | MSE_0 4.327e-04 | MSE_g 1.388e-03 | MSE_y 9.658e-03
+  -> params 14156 | TEST meas RMSE 0.0514 | hidden RMSE 0.0485 | 1660s
+
+=== Pass 2: 4 layers x 256 neurons ===
+    epoch    1 | MSE_0 2.464e-01 | MSE_g 7.849e-01 | MSE_y 1.173e+02
+    epoch  500 | MSE_0 2.930e-04 | MSE_g 2.509e-03 | MSE_y 6.928e-03
+    epoch 1000 | MSE_0 4.434e-04 | MSE_g 3.785e-03 | MSE_y 6.882e-03
+    epoch 1500 | MSE_0 1.837e-04 | MSE_g 7.369e-04 | MSE_y 4.566e-03
+    epoch 2000 | MSE_0 3.458e-04 | MSE_g 7.139e-03 | MSE_y 1.893e-02
+  -> params 204044 | TEST meas RMSE 0.1083 | hidden RMSE 0.0680 | 5297s
+
+================ SUMMARY ================
+layers  neur   params      MSE_0      MSE_g      MSE_y  measRMSE   hidRMSE  time_s
+     2   128    19852  6.357e-05  7.278e-04  1.370e-03    0.0402    0.0360    1468
+     4   128    52876  8.355e-05  3.059e-04  3.019e-04    0.0239    0.0272    2376
+     6   128    85900  4.830e-04  2.179e-03  4.350e-03    0.0991    0.0748    3854
+     9   128   135436  3.872e-04  2.447e-03  4.338e-03    0.0710    0.0633    5417
+     4    20     1792  1.122e-02  1.950e-02  1.413e-02    0.1171    0.1904    1369
+     4    64    14156  4.327e-04  1.388e-03  9.658e-03    0.0514    0.0485    1660
+     4   256   204044  3.458e-04  7.139e-03  1.893e-02    0.1083    0.0680    5297
+
+BEST by hidden RMSE: 4 layers x 128 neurons -> hidden RMSE 0.0272
+Saved docs/arch_study.csv
