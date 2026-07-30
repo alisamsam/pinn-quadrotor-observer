@@ -1,0 +1,18 @@
+nohup: les entrées sont ignorées
+Device: cuda
+Config: 9x20, w0=1.5, w_ode=0.5, wy=1.0, seed=0
+Parameters: 3892
+    epoch    1 | MSE_0 3.331e+00 | MSE_g 7.095e-01 | MSE_y 2.153e+02
+    epoch  500 | MSE_0 4.448e-02 | MSE_g 8.964e-01 | MSE_y 9.141e+00
+    epoch 1000 | MSE_0 3.228e-02 | MSE_g 9.460e-01 | MSE_y 1.018e+00
+    epoch 1500 | MSE_0 3.113e-02 | MSE_g 2.727e-01 | MSE_y 2.167e-01
+    epoch 2000 | MSE_0 2.723e-02 | MSE_g 2.162e-01 | MSE_y 1.237e-01
+
+================ RESULT ================
+  best loss:            2.5963e-01
+  convergence iteration:59640  (epoch 1988 of 2000)
+  RMSE  measured/hidden: 0.3246 / 0.5401
+  MAE   measured/hidden: 0.2348 / 0.4115
+  inference: 0.05 microseconds per sample (1.6 ms for 30000 samples)
+  training time: 2462 s
+Saved docs/farkane_recipe.csv
