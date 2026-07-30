@@ -1,0 +1,32 @@
+nohup: les entrées sont ignorées
+Device: cuda
+
+=== clean: sigma_pos=0.0 m, sigma_att=0.0 rad ===
+    epoch    1 | MSE_0 1.072e+00 | MSE_g 7.399e-01 | MSE_y 1.528e+02
+    epoch  500 | MSE_0 2.828e-04 | MSE_g 1.443e-03 | MSE_y 1.141e-02
+    epoch 1000 | MSE_0 1.166e-04 | MSE_g 6.289e-04 | MSE_y 1.233e-03
+    epoch 1500 | MSE_0 1.013e-04 | MSE_g 4.660e-04 | MSE_y 4.455e-04
+    epoch 2000 | MSE_0 1.429e-04 | MSE_g 6.329e-04 | MSE_y 1.006e-03
+  -> TEST meas RMSE 0.0346 | hidden RMSE 0.0333 | 2445s
+
+=== moderate: sigma_pos=0.05 m, sigma_att=0.01 rad ===
+    epoch    1 | MSE_0 1.055e+00 | MSE_g 6.368e-01 | MSE_y 1.557e+02
+    epoch  500 | MSE_0 3.499e-04 | MSE_g 1.888e-03 | MSE_y 2.158e-02
+    epoch 1000 | MSE_0 1.970e-04 | MSE_g 8.442e-04 | MSE_y 3.986e-03
+    epoch 1500 | MSE_0 1.531e-04 | MSE_g 4.543e-04 | MSE_y 2.186e-03
+    epoch 2000 | MSE_0 7.830e-05 | MSE_g 4.036e-04 | MSE_y 1.812e-03
+  -> TEST meas RMSE 0.0275 | hidden RMSE 0.0290 | 2446s
+
+=== strong: sigma_pos=0.1 m, sigma_att=0.02 rad ===
+    epoch    1 | MSE_0 1.055e+00 | MSE_g 6.368e-01 | MSE_y 1.558e+02
+    epoch  500 | MSE_0 1.584e-04 | MSE_g 1.345e-03 | MSE_y 8.166e-03
+    epoch 1000 | MSE_0 1.776e-04 | MSE_g 7.484e-04 | MSE_y 8.556e-03
+    epoch 1500 | MSE_0 1.451e-04 | MSE_g 1.040e-03 | MSE_y 6.787e-03
+    epoch 2000 | MSE_0 1.892e-04 | MSE_g 6.979e-04 | MSE_y 1.790e-02
+  -> TEST meas RMSE 0.0913 | hidden RMSE 0.0568 | 2452s
+
+================ SUMMARY ================
+      clean: meas 0.0346 | hidden 0.0333
+   moderate: meas 0.0275 | hidden 0.0290
+     strong: meas 0.0913 | hidden 0.0568
+Saved docs/noise_study.csv
