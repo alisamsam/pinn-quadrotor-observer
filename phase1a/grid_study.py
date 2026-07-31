@@ -11,11 +11,11 @@ from dynamics_torch import quadrotor_dynamics_torch
 # ---------------------------------------------------------------
 # Full grid study on NEUTRAL weights (w0 = w_ode = wy = 1.0):
 # layers in {4, 9, 12} x neurons in {20, 60, 100, 128} = 12 runs.
-# Metrics per run: params, best loss, convergence iteration/epoch,
-# RMSE and MAE (measured/hidden) on unseen flights, training time.
+# CRASH-SAFE: each configuration's row is appended to the CSV the
+# moment it finishes, so a crash never loses completed results.
 # ---------------------------------------------------------------
 
-EPOCHS, LR, BATCH, LOG_EVERY = 2000, 1e-3, 4096, 500
+EPOCHS, LR, BATCH, LOG_EVERY = 2000, 1e-3, 4096, 100
 W0, WODE, WY = 1.0, 1.0, 1.0
 SEED = 0
 LAYERS_LIST  = [4, 9, 12]
@@ -82,6 +82,12 @@ def train_one(layers, hidden):
 
 os.makedirs("docs", exist_ok=True)
 rows = []
+CSV_PATH = "docs/grid_study.csv"
+with open(CSV_PATH, "w", newline="") as fp:
+    csv.writer(fp).writerow(
+        ["layers","neurons","params","best_loss","conv_iteration","conv_epoch",
+         "rmse_meas","rmse_hidden","mae_meas","mae_hidden","train_time_s"])
+
 for L in LAYERS_LIST:
     for H in NEURONS_LIST:
         print(f"\n=== {L} layers x {H} neurons ===", flush=True)
@@ -92,12 +98,8 @@ for L in LAYERS_LIST:
               f"RMSE {mr:.4f}/{hr:.4f} | MAE {mm:.4f}/{mh:.4f} | {dt:.0f}s", flush=True)
         rows.append([L, H, p, f"{bl:.4e}", bi, be,
                      f"{mr:.4f}", f"{hr:.4f}", f"{mm:.4f}", f"{mh:.4f}", f"{dt:.0f}"])
-
-with open("docs/grid_study.csv", "w", newline="") as fp:
-    w = csv.writer(fp)
-    w.writerow(["layers","neurons","params","best_loss","conv_iteration","conv_epoch",
-                "rmse_meas","rmse_hidden","mae_meas","mae_hidden","train_time_s"])
-    w.writerows(rows)
+        with open(CSV_PATH, "a", newline="") as fp:
+            csv.writer(fp).writerow(rows[-1])
 
 best = min(rows, key=lambda r: float(r[7]))
 print("\n================ SUMMARY ================", flush=True)
@@ -105,4 +107,4 @@ print(f"{'L':>3} {'H':>4} {'params':>8} {'best_loss':>11} {'conv_it':>8} {'RMSEm
 for r in rows:
     print(f"{r[0]:>3} {r[1]:>4} {r[2]:>8} {r[3]:>11} {r[4]:>8} {r[6]:>7} {r[7]:>7} {r[8]:>7} {r[9]:>7} {r[10]:>6}", flush=True)
 print(f"\nBEST by hidden RMSE: {best[0]} layers x {best[1]} neurons -> {best[7]}", flush=True)
-print("Saved docs/grid_study.csv", flush=True)
+print(f"Saved {CSV_PATH}", flush=True)
