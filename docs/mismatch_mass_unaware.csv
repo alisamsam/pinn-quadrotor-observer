@@ -1,0 +1,6 @@
+set,mass_deviation,test_meas_RMSE,test_hidden_RMSE
+mass_unaware_-20,-20%,1.0762,1.2747
+mass_unaware_-10,-10%,0.5137,0.5735
+mass_unaware_0,+0%,0.0286,0.0306
+mass_unaware_+10,+10%,0.4486,0.4416
+mass_unaware_+20,+20%,0.8493,0.7783
