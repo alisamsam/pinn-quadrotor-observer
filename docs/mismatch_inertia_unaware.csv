@@ -1,0 +1,6 @@
+set,inertia_deviation,test_meas_RMSE,test_hidden_RMSE
+inertia_unaware_-20,-20%,0.3404,0.3582
+inertia_unaware_-10,-10%,0.1946,0.2095
+inertia_unaware_0,+0%,0.0286,0.0306
+inertia_unaware_+10,+10%,0.3334,0.3692
+inertia_unaware_+20,+20%,1.2356,1.3349

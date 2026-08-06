@@ -1,0 +1,6 @@
+set,arm_deviation,test_meas_RMSE,test_hidden_RMSE
+arm_unaware_-20,-20%,1.4343,1.5571
+arm_unaware_-10,-10%,0.4080,0.4454
+arm_unaware_0,+0%,0.0286,0.0306
+arm_unaware_+10,+10%,0.1796,0.1936
+arm_unaware_+20,+20%,0.2952,0.3132
