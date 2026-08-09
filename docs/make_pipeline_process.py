@@ -43,8 +43,8 @@ ax.text((cx[1]+cx[2])/2,75.5,"state feedback  (closed-loop control)",ha="center"
         fontsize=9.5,color=FB,fontweight="bold")
 
 # ---- feedback loop 2: PINN training loop (self-loop on observer) ----
-ax.add_patch(FancyArrowPatch((cx[5]+4.5,61),(cx[5]-4.5,61),arrowstyle="-|>",mutation_scale=18,
-             color=FB,lw=2.8,connectionstyle="arc3,rad=-1.7",shrinkA=0,shrinkB=0))
+ax.add_patch(FancyArrowPatch((cx[5]+5,61.3),(cx[5]-5,61.3),arrowstyle="-|>",mutation_scale=18,
+             color=FB,lw=2.8,connectionstyle="arc3,rad=-0.9",shrinkA=0,shrinkB=0))
 ax.text(cx[5],75.5,"training loop:  update $\\theta$",ha="center",fontsize=9.5,color=FB,fontweight="bold")
 ax.text(cx[5],72.5,"until stopping criteria",ha="center",fontsize=9.5,color=FB,fontweight="bold")
 
