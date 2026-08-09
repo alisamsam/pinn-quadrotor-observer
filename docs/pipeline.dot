@@ -1,0 +1,42 @@
+digraph pipeline {
+  rankdir=LR;
+  bgcolor="white";
+  labelloc="t";
+  fontname="Helvetica-Bold"; fontsize=20;
+  label="PINN Quadrotor — Simulation Pipeline";
+  nodesep=0.55; ranksep=0.75;
+
+  node [shape=box, style="filled,rounded", fontname="Helvetica-Bold",
+        fontcolor=white, fontsize=12, penwidth=0, margin="0.18,0.12"];
+  edge [fontname="Helvetica-Bold", fontsize=10, penwidth=2.2, color="#242424", arrowsize=0.9];
+
+  s1 [label="1 · Desired path\nspiral ref: R, omega, vz, psi_d", fillcolor="#0F8B8D"];
+  s2 [label="2 · Controller\nfeedforward + PD, tilt-comp", fillcolor="#1D5FB0"];
+  s3 [label="3 · Drone dynamics\nSingha model: m, l, I, g", fillcolor="#E8701A"];
+  s4 [label="4 · Measurement\ny = C x  (6 of 12)", fillcolor="#7A2E9D"];
+  s5 [label="5 · Dataset (.npz)\n40/10 split, normalize", fillcolor="#2E9E5B"];
+  s6 [label="6 · PINN Observer\nlearn x_hat: data + physics", fillcolor="#C21E7A"];
+  s7 [label="7 · Results\n12 states, min RMSE", fillcolor="#16305E"];
+
+  s1 -> s2 [label="ref"];
+  s2 -> s3 [label="U"];
+  s3 -> s4 [label="x(t)"];
+  s4 -> s5 [label="y"];
+  s5 -> s6 [label="data"];
+  s6 -> s7 [label="x_hat"];
+
+  // feedback loops (red)
+  s3 -> s2 [label="state feedback (closed loop)", color="#D7263D",
+            fontcolor="#D7263D", constraint=false, penwidth=2.6];
+  s6 -> s6 [label="training loop:\nupdate theta until stop", color="#D7263D",
+            fontcolor="#D7263D", penwidth=2.6];
+
+  // evaluation taps (white boxes below)
+  node [style="filled,rounded", fillcolor="white", fontname="Helvetica-Bold", penwidth=2.0];
+  t1 [label="TAP 1: desired vs actual\ncontroller RMSE", color="#E8701A", fontcolor="#E8701A"];
+  t2 [label="TAP 2: true vs estimated\nobserver RMSE",  color="#C21E7A", fontcolor="#C21E7A"];
+  s3 -> t1 [color="#E8701A", arrowsize=0.8, constraint=false];
+  s7 -> t2 [color="#C21E7A", arrowsize=0.8, constraint=false];
+  { rank=same; s3; t1; }
+  { rank=same; s7; t2; }
+}
