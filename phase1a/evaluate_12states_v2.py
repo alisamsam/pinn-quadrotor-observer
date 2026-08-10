@@ -46,13 +46,16 @@ with torch.no_grad():
     Xp_f = model(t_col, x0_rep).numpy()
 Xt_f = X[flight]
 
+UNITS = ['m','m','m','m/s','m/s','m/s','rad','rad','rad','rad/s','rad/s','rad/s']
 fig, axes = plt.subplots(4,3, figsize=(15,11))
 for i,ax in enumerate(axes.flat):
     r = float(np.sqrt(((Xp_f[:,i]-Xt_f[:,i])**2).mean()))
     ax.plot(T, Xt_f[:,i], 'b-', lw=1.5, label='true')
     ax.plot(T, Xp_f[:,i], 'r--', lw=1.3, label='estimated')
     tag = "meas" if i in MEAS_IDX else "HID"
-    ax.set_title(f"{NAMES[i]} ({tag})  RMSE={r:.3f}", fontsize=10)
+    ax.set_title(f"{NAMES[i]} ({tag})  RMSE={r:.3f} {UNITS[i]}", fontsize=10)
+    ax.set_xlabel("time  t  (s)", fontsize=9)
+    ax.set_ylabel(f"{NAMES[i]}  ({UNITS[i]})", fontsize=9)
     ax.grid(alpha=0.3); ax.legend(fontsize=7)
 fig.suptitle("Observer v2 (controller_v2 dataset) — 12 states, unseen flight 40: true vs estimated", fontsize=13)
 out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "eval_12states_v2.png")
