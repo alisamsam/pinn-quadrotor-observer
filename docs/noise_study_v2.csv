@@ -1,0 +1,4 @@
+case,sigma_pos_m,sigma_att_rad,test_meas_RMSE,test_hidden_RMSE
+clean,0.0,0.0,0.0442,0.0559
+moderate,0.05,0.01,0.0775,0.0699
+strong,0.1,0.02,0.0850,0.0720
