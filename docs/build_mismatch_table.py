@@ -62,11 +62,27 @@ for i, dev in enumerate(devs):
         for cc in range(1, 14):
             ws.cell(row=r, column=cc).font = BOLD
 
-ws.cell(row=13, column=1,
-        value="Read-down each column: V1 (old) error grows steeply with deviation; V2 stays low = far more robust. 0% = nominal (no mismatch).")
-ws.cell(row=13, column=1).font = Font(italic=True, color="666666")
+WORST = PatternFill("solid", fgColor="FFD24D"); WFONT = Font(bold=True, color="8A1C1C")
+# highlight the worst (max RMSE) deviation in each of the 12 data columns
+for c in range(2, 14):
+    rmax = max(range(7, 12), key=lambda r: ws.cell(row=r, column=c).value)
+    cell = ws.cell(row=rmax, column=c); cell.fill = WORST; cell.font = WFONT
 
-ws.column_dimensions["A"].width = 11
+# ---- combined-worst block (each parameter at its individually-worst direction) ----
+old_comb = {"meas": 3.0034, "hid": 3.2302}; v2_comb = {"meas": 0.3384, "hid": 0.6963}
+ws.cell(row=13, column=1, value="COMBINED WORST").font = BOLD
+ws.cell(row=14, column=1, value="(m -20%, I +20%, l -20%)").font = Font(italic=True, color="555555")
+for j, (lab, fill) in enumerate([("V1 meas", V1L), ("V1 hid", V1L), ("V2 meas", V2L), ("V2 hid", V2L)]):
+    hc = ws.cell(row=13, column=2+j, value=lab); hc.font = BOLD; hc.alignment = center; hc.fill = fill; hc.border = border
+for j, val in enumerate([old_comb["meas"], old_comb["hid"], v2_comb["meas"], v2_comb["hid"]]):
+    cc = ws.cell(row=14, column=2+j, value=val); cc.number_format = "0.0000"
+    cc.alignment = center; cc.border = border; cc.fill = WORST; cc.font = WFONT
+
+ws.cell(row=16, column=1,
+        value="Amber = worst deviation in that column. Combined-worst combines each parameter's individually-worst direction. 0% = nominal.")
+ws.cell(row=16, column=1).font = Font(italic=True, color="666666")
+
+ws.column_dimensions["A"].width = 13
 for c in "BCDEFGHIJKLM":
     ws.column_dimensions[c].width = 9
 ws.freeze_panes = "B7"
