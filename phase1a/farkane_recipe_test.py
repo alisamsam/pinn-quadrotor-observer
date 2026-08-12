@@ -16,7 +16,7 @@ from dynamics_torch import quadrotor_dynamics_torch
 # MAE (measured/hidden) on unseen flights, inference time, training time.
 # ---------------------------------------------------------------
 
-EPOCHS, LR, BATCH, LOG_EVERY = 2000, 1e-3, 4096, 500
+EPOCHS, LR, BATCH, LOG_EVERY = 2000, 1e-3, 4096, 100
 W0, WODE, WY = 1.5, 0.5, 1.0
 LAYERS, HIDDEN = 9, 20
 SEED = 0
