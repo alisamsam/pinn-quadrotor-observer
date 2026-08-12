@@ -1,0 +1,15 @@
+state,group,luenberger_RMSE
+x,measured,0.0220
+y,measured,0.0227
+z,measured,0.0103
+vx,hidden,0.0157
+vy,hidden,0.0159
+vz,hidden,0.0019
+phi,measured,0.0023
+theta,measured,0.0024
+psi,measured,0.0005
+p,hidden,0.0093
+q,hidden,0.0131
+r,hidden,0.0003
+avg_measured,,0.0100
+avg_hidden,,0.0094
