@@ -1,0 +1,9 @@
+parameter,metric,-20%,-10%,nominal,+10%,+20%
+mass,measured RMSE,0.0004,0.0002,0.0000,0.0002,0.0004
+mass,hidden RMSE,0.4861,0.2432,0.0129,0.2506,0.4920
+inertia,measured RMSE,0.0000,0.0000,0.0000,0.0000,0.0001
+inertia,hidden RMSE,0.0323,0.0207,0.0129,0.0267,0.0557
+arm,measured RMSE,0.0001,0.0000,0.0000,0.0000,0.0000
+arm,hidden RMSE,0.0737,0.0294,0.0129,0.0196,0.0284
+combined worst,measured RMSE,,,0.0000,,0.0006
+combined worst,hidden RMSE,,,0.0129,,0.6767
