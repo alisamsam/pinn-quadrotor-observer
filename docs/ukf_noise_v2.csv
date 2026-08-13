@@ -1,0 +1,4 @@
+case,sigma_pos,sigma_att,UKF_meas_RMSE,UKF_hidden_RMSE
+clean,0.0,0.0,0.0000,0.0129
+moderate,0.05,0.01,0.0073,0.0163
+strong,0.1,0.02,0.0113,0.0198
