@@ -21,6 +21,16 @@ measured = [float(r["test_meas_RMSE"])   for r in rows]
 hidden   = [float(r["test_hidden_RMSE"]) for r in rows]
 best_h   = min(hidden)
 
+# per-case train times (seconds), parsed from the cluster log if it was pulled back
+import re
+def load_times():
+    for cand in [os.path.join(HERE, "wstudy_v2_log.txt"),
+                 os.path.join(HERE, "..", "docs", "wstudy_v2_log.txt")]:
+        if os.path.exists(cand):
+            return [int(x) for x in re.findall(r"->\s*meas.*?\|\s*(\d+)\s*s", open(cand).read())]
+    return []
+times = load_times()
+
 # ---------------- histogram (exact v1 style) ----------------
 x = np.arange(len(rows)); w = 0.38
 fig, ax = plt.subplots(figsize=(11, 6))
@@ -37,7 +47,7 @@ for b, v in zip(b2, hidden):
 ax.set_xticks(x); ax.set_xticklabels(cases, fontsize=8)
 ax.set_xlabel("Weight case  (w0, w_ode, wy)")
 ax.set_ylabel("RMSE on unseen flights")
-ax.set_title("Loss-weight sensitivity at 4x100 (new controller v2)")
+ax.set_title("Loss-weight sensitivity at 4x100")
 ax.legend(); ax.grid(axis="y", alpha=0.3)
 ax.set_ylim(0, max(max(hidden), max(measured)) * 1.25)
 fig.tight_layout()
@@ -47,7 +57,7 @@ print("saved", PNG)
 
 # ---------------- Excel table ----------------
 wb = Workbook(); ws = wb.active; ws.title = "weight_study_v2"
-hdr = ["Case","w0","w_ode","wy","MSE_0","MSE_g","MSE_y","Measured RMSE","Hidden RMSE","In noise band?"]
+hdr = ["Case","w0","w_ode","wy","MSE_0","MSE_g","MSE_y","Measured RMSE","Hidden RMSE","Train time (s)","In noise band?"]
 navy = PatternFill("solid", fgColor="1F2A5A"); green = PatternFill("solid", fgColor="4E7D3A")
 band = PatternFill("solid", fgColor="E8EEF7"); thin = Side(style="thin", color="BBBBBB")
 bd = Border(left=thin, right=thin, top=thin, bottom=thin)
@@ -59,9 +69,10 @@ best_meas = min(measured); last = 1
 for i, r in enumerate(rows):
     m, h = measured[i], hidden[i]
     inband = h <= best_h + NOISE
+    tval = times[i] if i < len(times) else ""
     ws.append([f"C{r['case']}", float(r['w0']), float(r['w_ode']), float(r['wy']),
                float(r['MSE_0']), float(r['MSE_g']), float(r['MSE_y']),
-               m, h, "yes" if inband else ""])
+               m, h, tval, "yes" if inband else ""])
     last = ws.max_row
     for c in range(1, len(hdr)+1):
         cell = ws.cell(last, c); cell.alignment = Alignment(horizontal="center"); cell.border = bd
@@ -70,11 +81,16 @@ for i, r in enumerate(rows):
         ws.cell(last, 9).fill = green; ws.cell(last, 9).font = Font(bold=True, color="FFFFFF")
     if m == best_meas:
         ws.cell(last, 8).fill = green; ws.cell(last, 8).font = Font(bold=True, color="FFFFFF")
-ws.cell(last+2, 1).value = ("Selected: C2 (0.5, 1.5, 1.0) - best measured RMSE and inside the "
-                            "noise band on hidden; C4 has the single lowest hidden but is "
-                            "statistically tied with C2, C3, C7.")
-ws.cell(last+2, 1).font = Font(italic=True)
-widths = [16,7,8,7,11,11,11,15,13,15]
+note1 = ("Selected: C2 (0.5, 1.5, 1.0) - best measured RMSE and inside the noise band on "
+         "hidden; C4 has the single lowest hidden but is statistically tied with C2, C3, C7.")
+note2 = "All cases use the same 4x100 architecture (32,912 parameters), 2000 epochs on the same dataset."
+note3 = ("" if times else "Train-time column is blank until wstudy_v2_log.txt is pulled from the cluster "
+         "into this folder, then re-run this script.")
+ws.cell(last+2, 1).value = note1; ws.cell(last+2, 1).font = Font(italic=True)
+ws.cell(last+3, 1).value = note2; ws.cell(last+3, 1).font = Font(italic=True)
+if note3:
+    ws.cell(last+4, 1).value = note3; ws.cell(last+4, 1).font = Font(italic=True, color="B00000")
+widths = [16,7,8,7,11,11,11,15,13,14,15]
 for i, wdt in enumerate(widths, start=1):
     ws.column_dimensions[chr(64+i)].width = wdt
 XLSX = os.path.join(HERE, "weight_study_v2_table.xlsx")
