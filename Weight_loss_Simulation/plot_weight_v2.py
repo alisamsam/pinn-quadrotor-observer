@@ -27,7 +27,8 @@ def load_times():
     for cand in [os.path.join(HERE, "wstudy_v2_log.txt"),
                  os.path.join(HERE, "..", "docs", "wstudy_v2_log.txt")]:
         if os.path.exists(cand):
-            return [int(x) for x in re.findall(r"->\s*meas.*?\|\s*(\d+)\s*s", open(cand).read())]
+            txt = open(cand, encoding="utf-8", errors="ignore").read()
+            return [int(x) for x in re.findall(r"->\s*meas.*?\|\s*(\d+)\s*s", txt)]
     return []
 times = load_times()
 
