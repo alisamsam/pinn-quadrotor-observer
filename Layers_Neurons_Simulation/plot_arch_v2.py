@@ -21,7 +21,7 @@ for r in rows:
     data.setdefault(L, {})[H] = (float(r["rmse_meas"]), float(r["rmse_hidden"]), int(r["params"]))
 LAYERS  = sorted(data)
 NEURONS = sorted({int(r["neurons"]) for r in rows})
-COLORS  = {4: "#0F5A73", 9: "#2E86AB", 12: "#C0392B"}
+COLORS  = {4: "#1565C0", 9: "#2E9E4F", 12: "#D62728"}   # blue / green / red
 
 # best architecture by hidden RMSE among converged runs
 conv = [(int(r["layers"]), int(r["neurons"]), float(r["rmse_hidden"]))
@@ -38,7 +38,7 @@ for i, L in enumerate(LAYERS):
                   color=COLORS.get(L, "#888888"), edgecolor="white", linewidth=0.6)
     for b, v in zip(bars, vals):
         if np.isfinite(v):
-            txt = f"{v:.3f}" + ("  (diverged)" if v >= DIVERGE else "")
+            txt = f"{v:.3f}"
             ax.annotate(txt, (b.get_x() + b.get_width()/2, v), xytext=(0, 3),
                         textcoords="offset points", ha="center", va="bottom",
                         fontsize=8, rotation=90)
@@ -46,15 +46,10 @@ ax.set_yscale("log")
 ax.set_xticks(x); ax.set_xticklabels(NEURONS)
 ax.set_xlabel("Neurons per layer", fontsize=11)
 ax.set_ylabel("Hidden-state RMSE  (log scale)", fontsize=11)
-ax.set_title("Architecture grid: hidden RMSE vs width and depth "
-             "(new controller v2, neutral weights)", fontsize=12)
+ax.set_title("Architecture grid: hidden RMSE vs width and depth (neutral weights)",
+             fontsize=12)
 ax.grid(axis="y", which="both", ls="-", lw=0.4, alpha=0.35); ax.set_axisbelow(True)
 ax.legend(title="Depth", loc="upper left", framealpha=0.95); ax.margins(y=0.22)
-# annotate the winner
-bx = list(NEURONS).index(bestH) + (LAYERS.index(bestL) - (n-1)/2) * w
-ax.annotate(f"best: {bestL}x{bestH} ({best_val:.3f})", (bx, best_val),
-            xytext=(bx - 0.15, best_val*4.2), ha="center", fontsize=9.5, fontweight="bold",
-            color="#0F5A73", arrowprops=dict(arrowstyle="->", color="#0F5A73", lw=1.4))
 fig.tight_layout()
 PNG = os.path.join(HERE, "arch_grid_v2.png")
 fig.savefig(PNG, dpi=150, bbox_inches="tight"); plt.close(fig)
