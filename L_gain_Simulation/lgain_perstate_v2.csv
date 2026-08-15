@@ -1,0 +1,13 @@
+state,unit,type,rmse_without_L,rmse_with_L
+x,m,measured,0.0848,0.1480
+y,m,measured,0.0791,0.1408
+z,m,measured,0.0400,0.0672
+vx,m/s,hidden,0.1015,0.4948
+vy,m/s,hidden,0.0926,0.4173
+vz,m/s,hidden,0.0354,0.0758
+phi,rad,measured,0.0232,0.0816
+theta,rad,measured,0.0273,0.0819
+psi,rad,measured,0.0106,0.0554
+p,rad/s,hidden,0.0472,0.4800
+q,rad/s,hidden,0.0516,0.5636
+r,rad/s,hidden,0.0074,0.0268
