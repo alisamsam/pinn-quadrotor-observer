@@ -1,6 +1,6 @@
 import sys, os, csv, time
 # project root and phase1a importable (this file lives in L_gain_ArchStudy/)
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.getcwd()
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "phase1a"))
 import torch

@@ -1,5 +1,5 @@
 import sys, os, time
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.getcwd()
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "phase1a"))
 import torch

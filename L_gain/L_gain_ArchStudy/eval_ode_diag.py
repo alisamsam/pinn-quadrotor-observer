@@ -3,7 +3,7 @@
    (1) magnitude of the learned gain L(t), (2) does the integration diverge, and does a
    finer integration step fix it (step-size / stiffness check)."""
 import sys, os, torch
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.getcwd()
 sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "phase1a"))
 from pinn_observer_v5 import PINNObserverV5
 from data_phase4 import load_phase4_data, MEAS_IDX

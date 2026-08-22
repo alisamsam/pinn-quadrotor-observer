@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "phase1a"))
+sys.path.insert(0, os.path.join(os.getcwd(), "phase1a"))
 import numpy as np, torch
 from pinn_observer_v5 import PINNObserverV5
 from dynamics_torch import quadrotor_dynamics_torch

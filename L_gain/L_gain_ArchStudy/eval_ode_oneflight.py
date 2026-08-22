@@ -2,7 +2,7 @@
 """Step 3 validation: integrate the observer ODE on ONE unseen test flight with the
 already-trained L-model, and compare against the direct-output estimate."""
 import sys, os, time, torch
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.getcwd()
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "phase1a"))
 from pinn_observer_v5 import PINNObserverV5

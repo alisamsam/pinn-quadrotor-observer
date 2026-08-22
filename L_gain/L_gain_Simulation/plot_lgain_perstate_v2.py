@@ -3,8 +3,8 @@ without L = PINNObserverV4 (pinn_4x100_v2.pth); with L = PINNObserverV5 (pinn_4x
 Both 4x100. Averaged over the 10 test flights (flattened). House style; outputs into this folder.
 """
 import os, sys, csv
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "phase1a"))
+sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.path.join(os.getcwd(), "phase1a"))
 import numpy as np
 import torch
 import matplotlib

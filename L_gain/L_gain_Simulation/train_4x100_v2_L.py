@@ -5,8 +5,8 @@ v2 run (4x100, weights 0.5,1.5,1.0) so this is a clean L-ON vs L-OFF comparison
 against pinn_4x100_v2.pth (L-OFF: meas 0.0442 / hidden 0.0559).
 """
 import sys, os, time
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "phase1a"))
+sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.path.join(os.getcwd(), "phase1a"))
 
 import torch
 import torch.nn as nn
