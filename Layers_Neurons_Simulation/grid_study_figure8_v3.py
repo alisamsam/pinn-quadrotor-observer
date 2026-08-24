@@ -49,11 +49,21 @@ def train_one(layers,hidden):
     return npar, rmse[MEAS_IDX].mean().item(), rmse[HID].mean().item()
 
 os.makedirs("docs",exist_ok=True)
-with open(CSV_PATH,"w",newline="") as fp:
-    csv.writer(fp).writerow(["layers","neurons","params","rmse_meas","rmse_hidden","train_time_s"])
+done=set()
+if os.path.exists(CSV_PATH):
+    with open(CSV_PATH) as fp:
+        rd=csv.reader(fp); next(rd,None)
+        for r in rd:
+            if len(r)>=2 and r[0].isdigit(): done.add((int(r[0]),int(r[1])))
+    print("resuming; already done:", sorted(done), flush=True)
+else:
+    with open(CSV_PATH,"w",newline="") as fp:
+        csv.writer(fp).writerow(["layers","neurons","params","rmse_meas","rmse_hidden","train_time_s"])
 rows=[]
 for L in LAYERS_LIST:
     for H in NEURONS_LIST:
+        if (L,H) in done:
+            print(f"skip {L}x{H} (already done)",flush=True); continue
         print(f"\n=== {L} layers x {H} neurons ===",flush=True); t=time.time()
         p,mr,hr=train_one(L,H); dt=time.time()-t
         print(f"  -> params {p} | RMSE meas {mr:.4f} hidden {hr:.4f} | {dt:.0f}s",flush=True)

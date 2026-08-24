@@ -90,6 +90,8 @@ with open(CSV_PATH, "w", newline="") as fp:
 best = None
 for Ly in LAYERS_LIST:
     for H in NEURONS_LIST:
+        if (Ly,H) in done:
+            print(f"skip {Ly}x{H} (already done)", flush=True); continue
         print(f"\n=== {Ly} layers x {H} neurons (train-through-ODE) ===", flush=True)
         t = time.time()
         model, npar = train_one(Ly, H)
