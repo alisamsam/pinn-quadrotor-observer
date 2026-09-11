@@ -1,0 +1,4 @@
+case,sigma_pos_m,sigma_att_rad,test_meas_RMSE,test_hidden_RMSE,train_time_s
+clean,0.0,0.0,0.0163,0.0155,4838
+moderate,0.05,0.01,0.0321,0.0242,4765
+strong,0.1,0.02,0.0579,0.0335,4792
