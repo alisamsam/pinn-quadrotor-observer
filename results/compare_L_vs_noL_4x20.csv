@@ -1,0 +1,16 @@
+state,type,rmse_without_L,rmse_with_L
+x,measured,0.1909,0.2270
+y,measured,0.1934,0.2273
+z,measured,0.0955,0.1282
+vx,hidden,0.3704,0.8958
+vy,hidden,0.2603,1.0867
+vz,hidden,0.1040,0.3158
+phi,measured,0.0760,0.0996
+theta,measured,0.0767,0.1089
+psi,measured,0.0371,0.0631
+p,hidden,0.1522,0.7914
+q,hidden,0.2071,0.7672
+r,hidden,0.0228,0.5871
+AVG_all,-,0.1489,0.4415
+AVG_measured,-,0.1116,0.1424
+AVG_hidden,-,0.1861,0.7407

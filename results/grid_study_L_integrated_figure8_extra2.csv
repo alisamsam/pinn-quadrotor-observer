@@ -1,0 +1,2 @@
+layers,neurons,params,L_norm_mean,n_stable_of_10,meas_rmse_int,hidden_rmse_int,avg_diverge_t_s,meas_rmse_direct,hidden_rmse_direct,train_time_s
+12,100,120984,15.499,0,nan,nan,10.77,0.0279,0.0768,5929

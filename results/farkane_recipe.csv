@@ -1,0 +1,2 @@
+layers,neurons,w0,w_ode,wy,params,best_loss,conv_iteration,conv_epoch,rmse_meas,rmse_hidden,mae_meas,mae_hidden,inference_us_per_sample,train_time_s
+9,20,1.5,0.5,1.0,3892,2.5963e-01,59640,1988,0.3246,0.5401,0.2348,0.4115,0.05,2462
