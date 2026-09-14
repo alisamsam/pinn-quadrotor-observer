@@ -1,0 +1,15 @@
+state,unit,type,rmse
+x,m,measured,0.0441
+y,m,measured,0.0449
+z,m,measured,0.0120
+vx,m/s,hidden,0.0499
+vy,m/s,hidden,0.0390
+vz,m/s,hidden,0.0177
+phi,rad,measured,0.0082
+theta,rad,measured,0.0158
+psi,rad,measured,0.0058
+p,rad/s,hidden,0.0256
+q,rad/s,hidden,0.0664
+r,rad/s,hidden,0.0048
+avg_measured,,,0.0218
+avg_hidden,,,0.0339

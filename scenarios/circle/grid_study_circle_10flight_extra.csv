@@ -1,0 +1,2 @@
+layers,neurons,params,rmse_meas,rmse_hidden,train_time_s
+12,128,184972,0.0585,0.0516,19372
