@@ -11,17 +11,22 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa
 plt.rcParams.update({"font.size": 10, "savefig.bbox": "tight", "pdf.fonttype": 42})
 
 panels = [
-    ("fig_circle_controller_tracking.csv",  "(a) Circle",     (12, -72)),
+    ("fig_circle_controller_tracking.csv",  "(a) Circle",       (12, -72)),
     ("fig_figure8_controller_tracking.csv", "(b) Figure-eight", (20, -60)),
-    ("fig_spiral_controller_tracking.csv",  "(c) Spiral",     (18, -60)),
+    ("fig_spiral_controller_tracking.csv",  "(c) Spiral",       (18, -60)),
 ]
 
 fig = plt.figure(figsize=(15, 5))
-for i, (fname, title, (elev, azim)) in enumerate(panels):
+for i, (fname, title, view) in enumerate(panels):
+    elev, azim = view
     d = np.genfromtxt("paper_figures/" + fname, delimiter=",", names=True)
     ax = fig.add_subplot(1, 3, i + 1, projection="3d")
     ax.plot(d["x_des"], d["y_des"], d["z_des"], "b-", lw=2.0, label="desired")
     ax.plot(d["x_act"], d["y_act"], d["z_act"], "r--", lw=1.4, label="actual")
+    # mark the initial starting point (first sample of the actual flight, = (4,5,0))
+    x0, y0, z0 = d["x_act"][0], d["y_act"][0], d["z_act"][0]
+    ax.scatter([x0], [y0], [z0], color="black", s=70, marker="o",
+               depthshade=False, label="start (4,5,0)")
     ax.set_xlabel("x (m)", fontsize=9)
     ax.set_ylabel("y (m)", fontsize=9)
     ax.set_zlabel("z (m)", fontsize=9)

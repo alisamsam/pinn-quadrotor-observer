@@ -22,11 +22,11 @@ def run(ref_pos, ref_yaw, x0, out):
                header='t,x_des,y_des,z_des,x_act,y_act,z_act', comments='', fmt='%.6g')
     print('wrote', out, arr.shape)
 
-# circle: starts at (0,10,2)
-x0c = np.zeros(12); x0c[:3] = circular_reference(0.0)[0]
+# circle: ground start (4,5,0), matching spiral tracking and V3 data
+x0c = np.zeros(12); x0c[:3] = [4.0, 5.0, 0.0]
 run(circular_reference, circ_yaw, x0c, 'paper_figures/fig_circle_controller_tracking.csv')
 
-# figure-8: starts at (0,0,2.5)
-x0f = np.zeros(12); x0f[:3] = figure8_reference(0.0)[0]
+# figure-8: same ground start (4,5,0)
+x0f = np.zeros(12); x0f[:3] = [4.0, 5.0, 0.0]
 run(figure8_reference, f8_yaw, x0f, 'paper_figures/fig_figure8_controller_tracking.csv')
 print('DONE')
