@@ -37,3 +37,6 @@ tmp*.png
 *.log
 tmp/
 temp/
+_*.py
+*_log.txt
+results_lgain_eig_smoke/

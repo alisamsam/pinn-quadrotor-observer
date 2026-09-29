@@ -1,0 +1,3 @@
+layers,neurons,params,L_norm_mean,n_stable_of_10,hidden_rmse,meas_rmse,train_time_s
+4,20,3304,51.991,10,0.2123,0.0936,5782
+4,100,40184,117.960,10,0.1323,0.0700,5776
