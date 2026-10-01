@@ -1,0 +1,48 @@
+gain,start,avg_measured_RMSE,avg_hidden_RMSE
+Luenberger (w=10),true,0.0101,0.0088
+Luenberger (w=10),zero,0.0101,0.0088
+Luenberger (w=10),noisy,0.0101,0.0088
+Designed LQE (q=100),true,0.0101,0.0108
+Designed LQE (q=100),zero,0.0101,0.0108
+Designed LQE (q=100),noisy,0.0105,0.0228
+PINN learned L(t),true,0.0102,0.0104
+PINN learned L(t),zero,0.0102,0.0104
+PINN learned L(t),noisy,0.0103,0.0271
+
+gain,state,group,RMSE_zero_start
+Luenberger (w=10),x,measured,0.0223
+Luenberger (w=10),y,measured,0.0230
+Luenberger (w=10),z,measured,0.0104
+Luenberger (w=10),vx,HIDDEN,0.0154
+Luenberger (w=10),vy,HIDDEN,0.0159
+Luenberger (w=10),vz,HIDDEN,0.0017
+Luenberger (w=10),phi,measured,0.0021
+Luenberger (w=10),theta,measured,0.0024
+Luenberger (w=10),psi,measured,0.0005
+Luenberger (w=10),p,HIDDEN,0.0075
+Luenberger (w=10),q,HIDDEN,0.0121
+Luenberger (w=10),r,HIDDEN,0.0002
+Designed LQE (q=100),x,measured,0.0220
+Designed LQE (q=100),y,measured,0.0227
+Designed LQE (q=100),z,measured,0.0102
+Designed LQE (q=100),vx,HIDDEN,0.0148
+Designed LQE (q=100),vy,HIDDEN,0.0168
+Designed LQE (q=100),vz,HIDDEN,0.0046
+Designed LQE (q=100),phi,measured,0.0021
+Designed LQE (q=100),theta,measured,0.0030
+Designed LQE (q=100),psi,measured,0.0005
+Designed LQE (q=100),p,HIDDEN,0.0079
+Designed LQE (q=100),q,HIDDEN,0.0203
+Designed LQE (q=100),r,HIDDEN,0.0002
+PINN learned L(t),x,measured,0.0225
+PINN learned L(t),y,measured,0.0232
+PINN learned L(t),z,measured,0.0105
+PINN learned L(t),vx,HIDDEN,0.0157
+PINN learned L(t),vy,HIDDEN,0.0156
+PINN learned L(t),vz,HIDDEN,0.0028
+PINN learned L(t),phi,measured,0.0021
+PINN learned L(t),theta,measured,0.0024
+PINN learned L(t),psi,measured,0.0006
+PINN learned L(t),p,HIDDEN,0.0081
+PINN learned L(t),q,HIDDEN,0.0200
+PINN learned L(t),r,HIDDEN,0.0004
